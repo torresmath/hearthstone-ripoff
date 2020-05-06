@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player
 {
-    public const int maxDeck = 30;
-    public const int maxHand = 10;
+    public const int maxDeck = 1;
+    public const int maxHand = 0;
     public const int maxBattlefield = 7;
     public const int maxSecrets = 5;
 

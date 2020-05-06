@@ -13,6 +13,9 @@ public static class GameFactory
         game.AddAspect<ActionSystem>();
         game.AddAspect<DataSystem>();
         game.AddAspect<MatchSystem>();
+        game.AddAspect<PlayerSystem>();
+        game.AddAspect<DestructableSystem>();
+        game.AddAspect<VictorySystem>();
 
         // Add Other
         game.AddAspect<StateMachine>();

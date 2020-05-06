@@ -30,11 +30,11 @@ public class GameViewSystem : MonoBehaviour, IAspect
 	{
 		container.Awake();
 		actionSystem = container.GetAspect<ActionSystem>();
+		Temp_SetupSinglePlayer();
 	}
 
 	void Start()
 	{
-		Temp_SetupSinglePlayer();
 		container.ChangeState<PlayerIdleState>();
 	}
 
@@ -48,5 +48,22 @@ public class GameViewSystem : MonoBehaviour, IAspect
 		var match = container.GetMatch();
 		match.players[0].mode = ControlModes.Local;
 		match.players[1].mode = ControlModes.Computer;
+
+		foreach (Player p in match.players)
+		{
+			for (int i = 0; i < Player.maxDeck; ++i)
+			{
+				var card = new Minion();
+				card.name = "Card " + i.ToString();
+				card.cost = Random.Range(1, 10);
+				card.maxHitPoints = card.hitPoints = Random.Range(1, card.cost);
+				card.attack = card.cost - card.hitPoints;
+				p[Zones.Deck].Add(card);
+			}
+
+			var hero = new Hero();
+			hero.hitPoints = hero.maxHitPoints = 30;
+			p.hero.Add(hero);
+		}
 	}
 }

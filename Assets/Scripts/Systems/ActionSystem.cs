@@ -75,6 +75,7 @@ public class ActionSystem : Aspect
             yield break;
 
         var reactions = openReactions = new List<GameAction>();
+
         var flow = phase.Flow(container);
         while (flow.MoveNext()) { yield return null; }
 

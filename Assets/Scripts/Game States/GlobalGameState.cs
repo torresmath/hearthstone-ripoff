@@ -25,6 +25,12 @@ public class GlobalGameState : Aspect, IObserve
 
     void OnCompleteAllActions(object sender, object args)
     {
-        container.ChangeState<PlayerIdleState>();
+        if (container.GetAspect<VictorySystem>().IsGameOver())
+        {
+            container.ChangeState<GameOverState>();
+        } else
+        {
+            container.ChangeState<PlayerIdleState>();
+        }
     }
 }
