@@ -1,19 +1,16 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using TheLiquidFire.Animation;
 using TheLiquidFire.AspectContainer;
 using TheLiquidFire.Notifications;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroView : MonoBehaviour {
-	public Image avatar;
-	public Text attack;
-	public Text health;
-	public Text armor;
-	public Sprite active;
-	public Sprite inactive;
+public class HeroView : BattlefieldCardView {
+
+	public Text armor;	
 
 	public Hero hero { get; private set; }
+	public override Card card { get { return hero; } }
 
 	public void SetHero(Hero hero)
 	{
@@ -21,44 +18,36 @@ public class HeroView : MonoBehaviour {
 		Refresh();
 	}
 
-	private void OnEnable()
+	//private void OnEnable()
+	//{
+	//	this.AddObserver(OnPerformDamageAction, Global.PerformNotification<DamageAction>());
+	//}
+
+	//private void OnDisable()
+	//{
+	//	this.RemoveObserver(OnPerformDamageAction, Global.PerformNotification<DamageAction>());
+	//}
+
+	public override void OnPerformDamageAction(object sender, object args)
 	{
-		this.AddObserver(OnPerformDamageAction, Global.PerformNotification<DamageAction>());
+		var action = args as DamageAction;
+		if (action.targets.Contains(card as IDestructable))
+		{
+			Refresh();
+		}
+
+		this.PostNotification("HeroView.OnPerformDamageAction", action);
 	}
 
-	private void OnDisable()
+	protected override void Refresh()
 	{
-		this.RemoveObserver(OnPerformDamageAction, Global.PerformNotification<DamageAction>());
-	}
-
-	void Refresh()
-	{
+		Debug.Log("Hero refresh is active? " + isActive);
 		if (hero == null)
 			return;
-		avatar.sprite = inactive; // TODO: Add actiavion logic
+		avatar.sprite = isActive ? active : inactive;
 		attack.text = hero.attack.ToString();
 		health.text = hero.hitPoints.ToString();
 		armor.text = hero.armor.ToString();
 	}
 
-	void OnPerformDamageAction(object sender, object args)
-	{
-		var action = args as DamageAction;
-		if (action.targets.Contains(hero))
-		{
-			Refresh();
-			action.perform.viewer = HeroDamageViewer;
-		}
-	}
-
-	IEnumerator HeroDamageViewer(IContainer game, GameAction action)
-	{
-		Debug.Log("Hero Damage Viewer");
-		yield return true;
-		for (int i = health.fontSize; i < (health.fontSize + 50); i++)
-		{
-			health.fontSize++;
-			yield return null;
-		}
-	}
 }

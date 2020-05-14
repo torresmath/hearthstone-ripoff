@@ -38,6 +38,7 @@ public class DrawCardsView : MonoBehaviour
             playerView.deck.ShowDeckSize((float)deckSize / (float)Player.maxDeck);
 
             var cardView = boardView.cardPooler.Dequeue().GetComponent<CardView>();
+            cardView.Flip(false);
             cardView.card = drawAction.cards[i];
             cardView.transform.ResetParent(playerView.hand.transform);
             cardView.transform.position = playerView.deck.topCard.position;
@@ -46,8 +47,7 @@ public class DrawCardsView : MonoBehaviour
             var showPreview = action.player.mode == ControlModes.Local;
             var overDraw = action is OverdrawAction;
             var addCard = playerView.hand.AddCard(cardView.transform, showPreview, overDraw);
-            while (addCard.MoveNext())
-                yield return null;
+            while (addCard.MoveNext()) { yield return null; }
         }
     }
 

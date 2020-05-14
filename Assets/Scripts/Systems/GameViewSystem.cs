@@ -55,14 +55,20 @@ public class GameViewSystem : MonoBehaviour, IAspect
 			{
 				var card = new Minion();
 				card.name = "Card " + i.ToString();
-				card.cost = Random.Range(1, 10);
+				card.cost = Random.Range(1, 7);
 				card.maxHitPoints = card.hitPoints = Random.Range(1, card.cost);
 				card.attack = card.cost - card.hitPoints;
+				card.ownerIndex = p.index;
+				card.allowedAttacks = 1;
 				p[Zones.Deck].Add(card);
 			}
 
 			var hero = new Hero();
 			hero.hitPoints = hero.maxHitPoints = 30;
+			hero.allowedAttacks = 1;
+			hero.attack = 5;
+			hero.ownerIndex = p.index;
+			hero.zone = Zones.Hero;
 			p.hero.Add(hero);
 		}
 	}

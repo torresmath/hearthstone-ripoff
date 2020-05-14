@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TheLiquidFire.AspectContainer;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ public class Phase
         bool hitKeyFrame = false;
 
         if (viewer != null)
-        {
+        {   
             var sequence = viewer(game, owner);
             while (sequence.MoveNext())
             {
