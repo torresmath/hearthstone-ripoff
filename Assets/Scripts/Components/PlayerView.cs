@@ -34,7 +34,7 @@ public class PlayerView : MonoBehaviour {
 	{
 		var action = args as DamageAction;
 
-		if (action.targets.Contains(hero.hero))
+		if (action.targets.Contains(hero.hero as IDestructable))
 		{
 			StartCoroutine(DamageHero(action));
 		}

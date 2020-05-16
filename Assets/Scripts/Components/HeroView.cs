@@ -18,30 +18,21 @@ public class HeroView : BattlefieldCardView {
 		Refresh();
 	}
 
-	//private void OnEnable()
-	//{
-	//	this.AddObserver(OnPerformDamageAction, Global.PerformNotification<DamageAction>());
-	//}
-
-	//private void OnDisable()
-	//{
-	//	this.RemoveObserver(OnPerformDamageAction, Global.PerformNotification<DamageAction>());
-	//}
-
 	public override void OnPerformDamageAction(object sender, object args)
 	{
 		var action = args as DamageAction;
 		if (action.targets.Contains(card as IDestructable))
 		{
+			foreach (Card c in action.targets)
+				Debug.Log("Card name " + c.name);
+			//Debug.Log("OnPerformDamageAction " + card.name);
 			Refresh();
+			this.PostNotification("HeroView.OnPerformDamageAction", action);
 		}
-
-		this.PostNotification("HeroView.OnPerformDamageAction", action);
 	}
 
 	protected override void Refresh()
 	{
-		Debug.Log("Hero refresh is active? " + isActive);
 		if (hero == null)
 			return;
 		avatar.sprite = isActive ? active : inactive;

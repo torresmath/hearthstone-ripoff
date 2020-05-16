@@ -12,20 +12,14 @@ public class PlayerIdleState : BaseState
 	public override void Enter()
 	{
 		container.GetAspect<AttackSystem>().Refresh();
-		Temp_AutoChangeTurnForAI();
+		container.GetAspect<CardSystem>().Refresh();
+		if (container.GetMatch().CurrentPlayer.mode == ControlModes.Computer)
+			container.GetAspect<EnemySystem>().TakeTurn();
 		this.PostNotification(EnterNotification);
 	}
 
 	public override void Exit()
 	{
 		this.PostNotification(ExitNotification);
-	}
-
-	void Temp_AutoChangeTurnForAI()
-	{
-		if (container.GetMatch().CurrentPlayer.mode != ControlModes.Local)
-		{
-			container.GetAspect<MatchSystem>().ChangeTurn();
-		}
 	}
 }

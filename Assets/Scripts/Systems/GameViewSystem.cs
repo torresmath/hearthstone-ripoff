@@ -66,9 +66,10 @@ public class GameViewSystem : MonoBehaviour, IAspect
 			var hero = new Hero();
 			hero.hitPoints = hero.maxHitPoints = 30;
 			hero.allowedAttacks = 1;
-			hero.attack = 5;
+			hero.attack = 1;
 			hero.ownerIndex = p.index;
 			hero.zone = Zones.Hero;
+			hero.name = "Hero Player " + p.index;
 			p.hero.Add(hero);
 		}
 	}

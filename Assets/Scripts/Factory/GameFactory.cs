@@ -21,6 +21,8 @@ public static class GameFactory
         game.AddAspect<ManaSystem>();
         game.AddAspect<AttackSystem>();
         game.AddAspect<CombatSystem>();
+        game.AddAspect<DeathSystem>();
+        game.AddAspect<EnemySystem>();
 
         // Add Other
         game.AddAspect<StateMachine>();

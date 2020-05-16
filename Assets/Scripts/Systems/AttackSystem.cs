@@ -40,10 +40,27 @@ public class AttackSystem : Aspect, IObserve
         var action = args as AttackAction;
         var attacker = action.attacker as ICombatant;
         attacker.remainingAttacks--;
+        ApplyAttackDamage(action);
+        ApplyCounterAttackDamage(action);
+    }
 
+    void ApplyAttackDamage(AttackAction action)
+    {
+        var attacker = action.attacker as ICombatant;
         var target = action.target as IDestructable;
         var damageAction = new DamageAction(target, attacker.attack);
         container.AddReaction(damageAction);
+    }
+
+    void ApplyCounterAttackDamage(AttackAction action)
+    {
+        var attacker = action.target as ICombatant;
+        var target = action.attacker as IDestructable;
+        if (attacker != null && target != null)
+        {
+            var damageAction = new DamageAction(target, attacker.attack);
+            container.AddReaction(damageAction);
+        }
     }
 
     public List<Card> GetActive(Player player)
@@ -66,7 +83,6 @@ public class AttackSystem : Aspect, IObserve
     {
         var match = container.GetMatch();
         validAttackers = GetFiltered(match.CurrentPlayer, FilterAttackersNotification);
-        Debug.Log("Valid attackers size " + validAttackers.Count);
 
         validTargets = GetFiltered(match.OpponentPlayer, FilterTargetsNotification);        
     }

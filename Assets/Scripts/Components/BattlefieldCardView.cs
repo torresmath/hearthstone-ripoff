@@ -13,6 +13,7 @@ public abstract class BattlefieldCardView : MonoBehaviour
     public Sprite inactive;
     public Sprite active;
     protected bool isActive;
+    protected bool isTargetable;
 
     public abstract Card card { get; }
 
@@ -33,13 +34,14 @@ public abstract class BattlefieldCardView : MonoBehaviour
     void OnPlayerIdleEnter(object sender, object args)
     {
         var container = (sender as PlayerIdleState).container;
-        isActive = container.GetAspect<AttackSystem>().validAttackers.Contains(card);
+        isActive = container.GetAspect<AttackSystem>().validAttackers.Contains(card) && card.ownerIndex == 0;
+        isTargetable = container.GetAspect<AttackSystem>().validTargets.Contains(card) && card.ownerIndex == 1;
         Refresh();
     }
 
     void OnPlayerIdleExit(object sender, object args)
     {
-        isActive = false;
+        isActive = isTargetable = false;
     }
 
     protected abstract void Refresh();
