@@ -24,7 +24,14 @@ public class MinionView : BattlefieldCardView {
 	{
 		if (minion == null)
 			return;
-		avatar.sprite = isActive ? active : inactive;
+		if (minion.GetAspect<Taunt>() == null)
+		{
+			avatar.sprite = isActive ? active : inactive;
+		} else
+		{
+			avatar.sprite = isActive ? activeTaunt : inactiveTaunt;
+		}
+		
 		attack.text = minion.attack.ToString();
 		health.text = minion.hitPoints.ToString();
 		targetable.gameObject.SetActive(isTargetable);

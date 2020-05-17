@@ -23,6 +23,7 @@ public static class GameFactory
         game.AddAspect<CombatSystem>();
         game.AddAspect<DeathSystem>();
         game.AddAspect<EnemySystem>();
+        game.AddAspect<TauntSystem>();
 
         // Add Other
         game.AddAspect<StateMachine>();

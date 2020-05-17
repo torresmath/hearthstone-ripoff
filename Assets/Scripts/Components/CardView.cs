@@ -19,21 +19,33 @@ public class CardView : MonoBehaviour {
 	private GameObject[] faceDownElements;
 	protected bool isPlayable;
 
+	[SerializeField] protected int ownerIndex; 
+
 	private void Awake()
 	{
+		isPlayableImage.gameObject.SetActive(false);
 		faceUpElements = new GameObject[] {
 			cardFront.gameObject,
 			healthText.gameObject,
 			attackText.gameObject,
 			manaText.gameObject,
 			titleText.gameObject,
-			cardText.gameObject
+			cardText.gameObject,
+			isPlayableImage.gameObject
 		};
 
 		faceDownElements = new GameObject[] {
 			cardBack.gameObject
 		};
 		Flip(isFaceUp);
+		
+
+	}
+
+	private void Update()
+	{
+		if (card != null)
+			ownerIndex = card.ownerIndex;
 	}
 
 	private void OnEnable()

@@ -20,21 +20,23 @@ public class ManaSystem : Aspect, IObserve {
 	}
 
 	void OnPerformChangeTurn (object sender, object args) {
-		var mana = container.GetMatch ().CurrentPlayer.mana;
+		var currentPlayer = container.GetMatch().CurrentPlayer as Player;
+		var mana = currentPlayer.mana;
 		if (mana.permanent < Mana.MaxSlots)
 			mana.permanent++;
 		mana.spent = 0;
 		mana.overloaded = mana.pendingOverloaded;
 		mana.pendingOverloaded = 0;
 		mana.temporary = 0;
-		this.PostNotification (ValueChangedNotification, mana);
+		this.PostNotification (ValueChangedNotification, currentPlayer);
 	}
 
 	void OnPerformPlayCard (object sender, object args) {
 		var action = args as PlayCardAction;
-		var mana = container.GetMatch ().CurrentPlayer.mana;
+		var currentPlayer = container.GetMatch().CurrentPlayer as Player;
+		var mana = currentPlayer.mana;
 		mana.spent += action.card.cost;
-		this.PostNotification (ValueChangedNotification, mana);
+		this.PostNotification (ValueChangedNotification, currentPlayer);
 	}
 
 	void OnValidatePlayCard (object sender, object args) {

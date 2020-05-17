@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TheLiquidFire.AspectContainer;
 using UnityEngine;
 
-public class Card
+public class Card : Container
 {
     public string id;
     public string name;

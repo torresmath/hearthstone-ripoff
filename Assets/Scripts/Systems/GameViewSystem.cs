@@ -55,12 +55,18 @@ public class GameViewSystem : MonoBehaviour, IAspect
 			{
 				var card = new Minion();
 				card.name = "Card " + i.ToString();
-				card.cost = Random.Range(1, 7);
+				card.cost = Random.Range(1, 10);
 				card.maxHitPoints = card.hitPoints = Random.Range(1, card.cost);
 				card.attack = card.cost - card.hitPoints;
 				card.ownerIndex = p.index;
+				Debug.Log("OWNER " + card.ownerIndex);
 				card.allowedAttacks = 1;
 				p[Zones.Deck].Add(card);
+				if (i % 3 == 0)
+				{
+					card.AddAspect(new Taunt());
+					card.text = "Taunt";
+				}
 			}
 
 			var hero = new Hero();

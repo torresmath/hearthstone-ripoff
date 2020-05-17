@@ -24,7 +24,11 @@ public class ManaView : MonoBehaviour {
 
 	void OnManaValueChangedNotification(object sender, object args)
 	{
-		var mana = args as Mana;
+		var currentPlayer = args as Player;
+		if (currentPlayer.index != 0)
+			return;
+
+		var mana = currentPlayer.mana;
 		for (int i = 0; i < mana.Available; ++i)
 			SetSpriteForImageSlot(available, i);
 
@@ -76,6 +80,5 @@ public class ManaView : MonoBehaviour {
 
 		tweener = rectTransform.ScaleTo(Vector3.one, 0.15f + incrementedSpeed, EasingEquations.EaseInOutBack);
 		while (tweener != null) yield return null;
-
 	}
 }
